@@ -1,3 +1,4 @@
+from multiprocessing import Event
 from category.models import EventCategory
 from django.db import models
 from customuser.models import User
@@ -24,3 +25,11 @@ class Events(models.Model):
 
     class Meta:
         verbose_name_plural = "Events"
+
+class LikeEvent(models.Model):
+    event = models.ForeignKey(Events, on_delete=models.CASCADE, related_name='likeevent')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True, blank=False, null=False)
+
+    class Meta:
+        unique_together = ['event', 'user']

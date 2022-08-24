@@ -1,3 +1,4 @@
+from unicodedata import name
 from django.urls import path
 from .import views
 
@@ -15,5 +16,7 @@ urlpatterns = [
     # To update a event
     path('update/<int:pk>/', views.EventUpdate.as_view(), name='update_events'),
     # Display all the events of the current login user
-    path('self/', views.getLoginUserEvents, name="display all login user events")
+    path('self/', views.getLoginUserEvents, name="display all login user events"),
+    # For like and unliking the event
+    path('like/<int:E_id>/', views.likeUnlikeEvents, name="Like or Unlike Events"),
 ]

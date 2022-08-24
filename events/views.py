@@ -1,7 +1,8 @@
+from multiprocessing import Event
 from django.forms import ValidationError
 
 from requests import request
-from .models import Events
+from .models import Events, LikeEvent
 from .serializers import EventSerializer, EventupdateSerializer
 from rest_framework import status, generics
 from rest_framework.decorators import api_view, permission_classes
@@ -129,3 +130,21 @@ def getLoginUserEvents(request):
     events = Events.objects.filter(user = request.user)
     serializer = EventSerializer(events, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def likeUnlikeEvents(request, E_id):
+    """
+        Like or unlike an event
+    """
+    event = Events.objects.get(id=E_id)
+    like = LikeEvent.objects.filter(user = request.user, event = event)
+    if(len(like) == 0):
+        LikeEvent.objects.create(user = request.user, event=event)
+        return Response({"changed" : "Liked"})
+    else:
+        LikeEvent.objects.get(user=request.user, event=event).delete()
+        return Response({"changed" : "Disliked"})
+
+    

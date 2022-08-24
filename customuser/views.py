@@ -52,7 +52,7 @@ class generateKey:
             'verify':openapi.Schema(type=openapi.TYPE_BOOLEAN, default=False), 
             'reject':openapi.Schema(type=openapi.TYPE_BOOLEAN, default=False), 
             'age':openapi.Schema(type=openapi.TYPE_STRING), 
-            'staff':openapi.Schema(type=openapi.TYPE_STRING), 
+            'staff':openapi.Schema(type=openapi.TYPE_BOOLEAN, default=False), 
         },
     ),
 )
